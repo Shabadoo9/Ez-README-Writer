@@ -1,4 +1,5 @@
 // TODO: Include packages needed for this application
+const fs = require('fs');
 const inquirer = require('inquirer');
 const markdown = require('./utils/generateMarkdown');
 // TODO: Create an array of questions for user input
@@ -12,11 +13,6 @@ const questions = [
         type: 'input',
         name: 'description',
         message: 'readme description',
-    },
-    {
-        type: 'input',
-        name: 'Table of Contents',
-        message: 'readme table of contents',
     },
     {
         type: 'input',
@@ -35,7 +31,7 @@ const questions = [
     },
     {
         type: 'input',
-        name: 'test instructions',
+        name: 'testInstructions',
         message: 'readme test instructions',
     },
     {
@@ -44,16 +40,68 @@ const questions = [
         message: 'Github Username',
     },
     {type: 'input',
-    name: 'Email',
+    name: 'email',
     message: 'Email Address',
     }
 ];
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, (err) => {
+      if (err) {
+        console.error('Error writing to file:', err);
+      } else {
+        console.log('Data written to file successfully.');
+      }
+    });
+  }
+  
 
 // TODO: Create a function to initialize app
-function init() {}
+function init() {
+    inquirer
+        .prompt(questions)
+        .then((answers) => {
+            const readmeContent = `
+            # ${answers.title}
+            
+            ## Description
+            ${answers.description}
+            
+            ## Table of Contents
+           - [Installation](#Installation)
+           - [Usage](#Usage)
+           - [Liscense](#Liscense)
+           - [Contributing](#Contributing)
+           - [tests](#Tests)
+           - [Questions](#Questions) 
+            
+            ## Installation
+            ${answers.installation}
+            
+            ## Usage
+            ${answers.usage}
+
+            ## Contributing
+            ${answers.contributing}
+
+            ## Tests
+            ${answers.testInstructions}
+
+            ## questions
+            Reach out to me with any questions on my github ${answers.github} github.com/${answers.github}
+            Or Email me at ${answers.email}
+            
+            
+            `;
+            
+                  writeToFile('README.md', readmeContent);
+                })
+                .catch((err) => {
+                  console.error('Error occurred during prompt:', err);
+                });
+            }
+
 
 // Function call to initialize app
 init();
