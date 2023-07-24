@@ -1,7 +1,7 @@
 // TODO: Include packages needed for this application
 const fs = require('fs');
 const inquirer = require('inquirer');
-const markdown = require('./utils/generateMarkdown');
+const generateMarkdown = require('./utils/generateMarkdown');
 // TODO: Create an array of questions for user input
 const questions = [
     {
@@ -35,6 +35,13 @@ const questions = [
         message: 'readme test instructions',
     },
     {
+        type: 'list',
+        name: 'license',
+        message: 'Select a license for your project:',
+        choices: ['ISC', 'MIT', 'Apache-2.0', 'GNU GPLv3', 'None'],
+        default: 'None',
+    },
+    {
         type: 'input',
         name: 'github',
         message: 'Github Username',
@@ -62,6 +69,8 @@ function init() {
     inquirer
         .prompt(questions)
         .then((answers) => {
+            const licenseSection = generateMarkdown(answers);
+
             const readmeContent = `
             # ${answers.title}
             
@@ -71,7 +80,7 @@ function init() {
             ## Table of Contents
            - [Installation](#Installation)
            - [Usage](#Usage)
-           - [Liscense](#Liscense)
+           - [License](#License)
            - [Contributing](#Contributing)
            - [tests](#Tests)
            - [Questions](#Questions) 
@@ -87,6 +96,8 @@ function init() {
 
             ## Tests
             ${answers.testInstructions}
+
+            ${licenseSection}
 
             ## questions
             Reach out to me with any questions on my github ${answers.github} github.com/${answers.github}
