@@ -46,23 +46,24 @@ const questions = [
         name: 'github',
         message: 'Github Username',
     },
-    {type: 'input',
-    name: 'email',
-    message: 'Email Address',
+    {
+        type: 'input',
+        name: 'email',
+        message: 'Email Address',
     }
 ];
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
     fs.writeFile(fileName, data, (err) => {
-      if (err) {
-        console.error('Error writing to file:', err);
-      } else {
-        console.log('Data written to file successfully.');
-      }
+        if (err) {
+            console.error('Error writing to file:', err);
+        } else {
+            console.log('Data written to file successfully.');
+        }
     });
-  }
-  
+}
+
 
 // TODO: Create a function to initialize app
 function init() {
@@ -105,13 +106,13 @@ function init() {
             
             
             `;
-            
-                  writeToFile('README.md', readmeContent);
-                })
-                .catch((err) => {
-                  console.error('Error occurred during prompt:', err);
-                });
-            }
+
+            writeToFile('README.md', readmeContent);
+        })
+        .catch((err) => {
+            console.error('Error occurred during prompt:', err);
+        });
+}
 
 
 // Function call to initialize app
